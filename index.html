@@ -1,266 +1,298 @@
+\index.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width , initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static' , filename='style.css') }}">
-        <title>MLOPS Prediction App</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Satisfaction Predictor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            min-height: 100vh;
+        }
 
-    <body>
-        <h1>Welcome to Prediction App</h1>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            animation: fadeIn 0.5s ease;
+        }
 
-        <form method="POST" action="/">
-            
-            <label for="Departure Delay">Departure Delay</label>
-            <input type="number" step="0.01" name="Departure Delay" required>
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
 
-            <label for="Arrival Delay">Arrival Delay</label>
-            <input type="number" step="0.01" name="Arrival Delay" required>
+        .form-group {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
 
-            <label for="Flight Distance">Flight Distance</label>
-            <input type="number"  step="0.01" name="Flight Distance" required>
+        .form-group:hover {
+            transform: translateX(10px);
+        }
 
-            <label for="Online Boarding">Online Boarding</label>
-            <select name="Online Boarding" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #fff;
+        }
 
-            <label for="Inflight wifi service">Inflight wifi service</label>
-            <select name="Inflight wifi service" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
 
-            <label for="Class">Class</label>
-            <select name="Class" required>
-                <option value="0" >Buisness Travel</option>
-                <option value="1" >Personal Travel</option>
-            </select>
+        select {
+            cursor: pointer;
+        }
 
-            <label for="Type of Travel">Type of Travel</label>
-            <select name="Type of Travel" required>
-                <option value="0" >Buisness</option>
-                <option value="1" >Eco</option>
-                <option value="2" >Eco-Plus</option>
-            </select>
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            transform: scale(1.02);
+        }
 
-            <label for="Inflight entertainment">Inflight entertainment</label>
-            <select name="Inflight entertainment" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        .predict-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 30px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-            <label for="Seat comfort">Seat comfort</label>
-            <select name="Seat comfort" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        .predict-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
 
-            <label for="Leg room service">Leg room service</label>
-            <select name="Leg room service" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        .prediction-result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            animation: slideIn 0.5s ease;
+        }
 
-            <label for="On-board service">On-board service</label>
-            <select name="On-board service" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        .satisfied {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
 
-            <label for="Cleanliness">Cleanliness</label>
-            <select name="Cleanliness" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        .not-satisfied {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid #f44336;
+            color: #f44336;
+        }
 
-            <label for="Ease of Online Booking">Ease of Online Booking</label>
-            <select name="Ease of Online Booking" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
+        .error-message {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            animation: shake 0.5s ease;
+        }
 
-            <button type="submit">Predict</button>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✈️ Airline Satisfaction Predictor</h1>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label>Flight Distance (miles)</label>
+                <input type="number" name="Flight Distance" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Departure Delay (minutes)</label>
+                <input type="number" name="Departure Delay" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Arrival Delay (minutes)</label>
+                <input type="number" name="Arrival Delay" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Class</label>
+                <select name="Class" required>
+                    <option value="0">Business</option>
+                    <option value="1">Economy</option>
+                    <option value="2">Economy Plus</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Type of Travel</label>
+                <select name="Type of Travel" required>
+                    <option value="0">Business</option>
+                    <option value="1">Personal</option>
+                </select>
+            </div>
+
+            <!-- Service Ratings -->
+            <div class="form-group">
+                <label>Online Boarding</label>
+                <select name="Online Boarding" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Inflight WiFi Service</label>
+                <select name="Inflight wifi service" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Inflight Entertainment</label>
+                <select name="Inflight entertainment" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Seat Comfort</label>
+                <select name="Seat comfort" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Leg Room Service</label>
+                <select name="Leg room service" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>On-board Service</label>
+                <select name="On-board service" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cleanliness</label>
+                <select name="Cleanliness" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ease of Online Booking</label>
+                <select name="Ease of Online Booking" required>
+                    <option value="5">Outstanding</option>
+                    <option value="4">Excellent</option>
+                    <option value="3">Good</option>
+                    <option value="2">Average</option>
+                    <option value="1">Poor</option>
+                    <option value="0">Very Poor</option>
+                </select>
+            </div>
+
+            <button type="submit" class="predict-button">Predict Satisfaction</button>
         </form>
 
         {% if prediction is not none %}
-        {% if prediction == 1 %}
-            <h2 style="color: rgb(255, 217, 0);">Prediction :  Satisfied </h2>
-        {% elif prediction == 0 %}
-            <h2 style="color: green;">Prediction : not Satisfied </h2>
-        {% endif %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width , initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static' , filename='style.css') }}">
-        <title>MLOPS Prediction App</title>
-    </head>
-
-    <body>
-        <h1>Welcome to Prediction App</h1>
-
-        <form method="POST" action="/">
-            
-            <label for="Departure Delay">Departure Delay</label>
-            <input type="number" step="0.01" name="Departure Delay" required>
-
-            <label for="Arrival Delay">Arrival Delay</label>
-            <input type="number" step="0.01" name="Arrival Delay" required>
-
-            <label for="Flight Distance">Flight Distance</label>
-            <input type="number"  step="0.01" name="Flight Distance" required>
-
-            <label for="Online Boarding">Online Boarding</label>
-            <select name="Online Boarding" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="Inflight wifi service">Inflight wifi service</label>
-            <select name="Inflight wifi service" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="Class">Class</label>
-            <select name="Class" required>
-                <option value="0" >Buisness Travel</option>
-                <option value="1" >Personal Travel</option>
-            </select>
-
-            <label for="Type of Travel">Type of Travel</label>
-            <select name="Type of Travel" required>
-                <option value="0" >Buisness</option>
-                <option value="1" >Eco</option>
-                <option value="2" >Eco-Plus</option>
-            </select>
-
-            <label for="Inflight entertainment">Inflight entertainment</label>
-            <select name="Inflight entertainment" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="Seat comfort">Seat comfort</label>
-            <select name="Seat comfort" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="Leg room service">Leg room service</label>
-            <select name="Leg room service" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="On-board service">On-board service</label>
-            <select name="On-board service" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="Cleanliness">Cleanliness</label>
-            <select name="Cleanliness" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <label for="Ease of Online Booking">Ease of Online Booking</label>
-            <select name="Ease of Online Booking" required>
-                <option value="0" >Very Poor</option>
-                <option value="1" >Poor</option>
-                <option value="2" >Average</option>
-                <option value="3" >Good</option>
-                <option value="4" >Excellent</option>
-                <option value="5" >Outstanding</option>
-            </select>
-
-            <button type="submit">Predict</button>
-
-        </form>
-
-        {% if prediction is not none %}
-        {% if prediction == 0 %}
-            <h2 style="color: red;">Prediction : Not Satisfied </h2>
-        {% elif prediction == 1 %}
-            <h2 style="color: green;">Prediction : Satisfied </h2>
+            <div class="prediction-result {% if prediction == 1 %}satisfied{% else %}not-satisfied{% endif %}">
+                <h2>
+                    {% if prediction == 1 %}
+                        ✅ Prediction: Satisfied
+                    {% else %}
+                        ❌ Prediction: Not Satisfied
+                    {% endif %}
+                </h2>
+            </div>
         {% endif %}
 
-        {% elif error is not none %}
-            <h2>Error: {{ error }}</h2>
+        {% if error %}
+            <div class="error-message">
+                <h2>⚠️ Error: {{ error }}</h2>
+            </div>
         {% endif %}
-        
-
-    </body>
-</html>
-        
-        {% endif %}
-        
-
-    </body>
+    </div>
+</body>
 </html>
