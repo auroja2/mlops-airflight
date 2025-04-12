@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "applications.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "applications.py"
+    }
+  ],
+  "env": {
+    "PYTHONPATH": ".",
+    "MODEL_PATH": "./artifacts/model/model.joblib"
+  }
+}
