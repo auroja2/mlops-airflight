@@ -8,4 +8,5 @@ xgboost
 tensorboard
 torch
 matplotlib
-requests
+mlflow
+flask

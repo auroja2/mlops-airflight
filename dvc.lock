@@ -1,0 +1,75 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: config/paths_config.py
+      hash: md5
+      md5: 1090f3693d4a68ea9f0d3127c0b09a4b
+      size: 1435
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 10b496b970b142d3e54855ef4c0b86bc
+      size: 4112
+    outs:
+    - path: data/ingested
+      hash: md5
+      md5: 380a288a5e6ee3420a1c0af2d4a3853d.dir
+      size: 11996914
+      nfiles: 2
+  data_processing:
+    cmd: python src/data_processing.py
+    deps:
+    - path: config/paths_config.py
+      hash: md5
+      md5: 1090f3693d4a68ea9f0d3127c0b09a4b
+      size: 1435
+    - path: src/data_processing.py
+      hash: md5
+      md5: 678d023ea66728242f3ea809b41b991c
+      size: 4556
+    outs:
+    - path: data/processed/processed_data.csv
+      hash: md5
+      md5: 86c33ac2dd36c8d9b962e51f4e2a79c2
+      size: 8937941
+  feature_engineering:
+    cmd: python src/feature_engineering.py
+    deps:
+    - path: config/paths_config.py
+      hash: md5
+      md5: 1090f3693d4a68ea9f0d3127c0b09a4b
+      size: 1435
+    - path: data/processed/processed_data.csv
+      hash: md5
+      md5: 86c33ac2dd36c8d9b962e51f4e2a79c2
+      size: 8937941
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: 01464d7c9a8ee24ba31b1c2b515ddc58
+      size: 4662
+    outs:
+    - path: data/engineered_data/final_df.csv
+      hash: md5
+      md5: e30ace5bf22b764ddce2e3a6a2aaf9ee
+      size: 3833592
+  model_training:
+    cmd: python src/model_training.py
+    deps:
+    - path: config/paths_config.py
+      hash: md5
+      md5: 1090f3693d4a68ea9f0d3127c0b09a4b
+      size: 1435
+    - path: data/engineered_data/final_df.csv
+      hash: md5
+      md5: e30ace5bf22b764ddce2e3a6a2aaf9ee
+      size: 3833592
+    - path: src/model_training.py
+      hash: md5
+      md5: 040429be189683b48f2059bb83006c91
+      size: 7758
+    outs:
+    - path: data/model/trained_model.pkl
+      hash: md5
+      md5: 43529fab043431e1fd8d8ced47166f8a
+      size: 5292
